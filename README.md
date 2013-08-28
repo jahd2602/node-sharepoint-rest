@@ -7,7 +7,7 @@ On Premise SharePoint 2013 REST API wrapper.  Requires basic auth to be enabled 
 ### Using node-sharepoint-rest
 
     $ git clone https://github.com/PortalGNU/node-sharepoint-rest.git
-    $ cd node-ndoutils
+    $ cd node-sharepoint-rest
     $ sudo npm link
 
     or
