@@ -1,0 +1,27 @@
+{
+    "name": "node-sharepoint-rest",
+    "version": "0.0.1",
+    "main": "index.js",
+    "author": "Mike Kunze <mkunze@energy.wisc.edu>",
+    "description": "On Premise SharePoint 2013 REST API wrapper.  Requires basic auth to be enabled on SharePoint",
+    "licenses": [
+        { 
+            "type": "MIT", 
+            "url": "https://github.com/mikekunze/node-sharepoint-rest/blob/master/LICENSE"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/PortalGNU/node-sharepoint-rest.git"
+    },
+    "keywords": [
+        "sharepoint",
+        "2013",
+        "REST",
+        "wrapper"
+    ],
+    "dependencies": {
+        "coffee-script": "*",
+        "request": "*"
+    }
+}
