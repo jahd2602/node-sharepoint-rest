@@ -1,6 +1,6 @@
 {
     "name": "node-sharepoint-rest",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "main": "index.js",
     "author": "Mike Kunze <mkunze@energy.wisc.edu>",
     "description": "On Premise SharePoint 2013 REST API wrapper.  Requires basic auth to be enabled on SharePoint",
