@@ -6,20 +6,15 @@ On Premise SharePoint 2013 REST API wrapper.  Requires basic auth to be enabled 
 
 ### Using node-sharepoint-rest
 
-    $ git clone https://github.com/PortalGNU/node-sharepoint-rest.git
-    $ cd node-sharepoint-rest
-    $ sudo npm link
-
-    or
-
     $ npm install node-sharepoint-rest
 
-With it linked, you can use it in your project:
+With it now installed in your project:
 
     settings =
-        user : "node"
-        pass : "password"
-        url  : "http://sharepoint/subsite"
+        user      : "node"
+        pass      : "password"
+        url       : "https://sharepoint/subsite"
+        strictSSL : false
 
     SharePoint = require 'node-sharepoint-rest'
     
