@@ -3,6 +3,8 @@ class SharePoint
     if !@settings
       throw new Error("settings object is required for instance creation")
     else
+      if !@settings.strictSSL
+        @settings.strictSSL = false
 
       @request  = require 'request'
 
@@ -25,13 +27,14 @@ class SharePoint
   getLists: (cb)->
     processRequest = (err, res, body)->
       if !body || !JSON.parse(body).d
-        cb("no list of title : #{title}")
+        cb({err:err})
       else
         cb(err, JSON.parse(body).d.results)
 
     config =
       headers :
         Accept: "application/json;odata=verbose"
+      strictSSL: @settings.strictSSL
       url     : "#{@url}/_api/lists"
 
     @request.get(config, processRequest).auth(@user, @pass, true)
@@ -46,9 +49,10 @@ class SharePoint
         cb(err, JSON.parse(body).d.results)
 
     config =
-      headers :
+      headers:
         Accept: "application/json;odata=verbose"
-      url     : "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
+      strictSSL: @settings.strictSSL
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
 
     @request.get(config, processRequest).auth(@user, @pass, true)
 
@@ -65,6 +69,7 @@ class SharePoint
     config =
       headers :
         Accept: "application/json;odata=verbose"
+      strictSSL: @settings.strictSSL
       url     : "#{@url}/_api/web/lists/getbytitle('#{title}')?"
 
     @request.get(config, processRequest).auth(@user, @pass, true)
@@ -81,6 +86,7 @@ class SharePoint
     config =
       headers :
         Accept: "application/json;odata=verbose"
+      strictSSL: @settings.strictSSL
       url     : "#{@url}/#{app}/_api/contextinfo"
 
     @request.post(config, processRequest).auth(@user, @pass, true)
@@ -112,6 +118,7 @@ class SharePoint
         "X-RequestDigest": req.context
         "content-type": "application/json;odata=verbose"
       url     : "#{@url}/_api/web/lists/getbytitle('#{req.title}')/items(#{req.itemId})/AttachmentFiles/add(Filename='#{req.binary.fileName}')"
+      strictSSL: @settings.strictSSL
       body: req.data
       binaryStringRequestBody: true
       state: "update"
@@ -138,7 +145,8 @@ class SharePoint
         "Accept": "application/json;odata=verbose"
         "X-RequestDigest": context
         "content-type": "application/json;odata=verbose"
-      url     : "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
+      strictSSL: @settings.strictSSL
       body: JSON.stringify(item)
 
     @request.post(config, processRequest).auth(@user, @pass, true)
