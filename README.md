@@ -126,6 +126,79 @@ this fn to get the context string from a custom list, which is required for POST
 In order to use these POST functions, you must obtain the context and list item type, first, either by storing
 them before posting the request, or inline through callbacks as shown below.
 
+##### createList
+is a prototype function for creating a custom list.  You must have a recent context token first.  The example shows
+a callback pattern starting with the getContext fn.  The createList fn takes a req object which must contain a
+list title string, the app context, and a callback (err, list), where list is the new list from SharePoint.  As an
+interesting side note:  any context will work here, even the context of the site itself (empty string) as seen
+in the example below.
+
+    # get our context from the site url (leave app parameter as empty string)
+    sharePoint.getContext '', (err, context)->
+      console.log err || context
+
+      req =
+        context: context
+        title  : 'testing101'
+        description: "This is my new custom list"
+
+      sharePoint.createList req, (err, list)->
+        console.log err || list
+
+The data returned looks something like this.  Id will be used when calling list related fns that require GUID.
+The "..." indicates a continuation:
+```javascript
+{
+  Title: testing101',
+  Created: '2013-06-18T13:51:35Z',
+  Id: '12345ba1-65cb-1234-1234642ds',
+
+  ...,
+  __metadata: {
+     ...
+  }
+}
+```
+
+----
+
+##### createColumnForListByGUID
+is a prototype function for creating a custom list column.  You must have a recent context token from your list app
+first.  The example shows a callback pattern starting with the getContext fn.  The createList fn takes a req object
+which must contain a column title string, the app context,
+the column type (see: http://msdn.microsoft.com/en-us/library/microsoft.sharepoint.client.fieldtype.aspx),
+and a callback (err, data), where data is the new column data from SharePoint.
+
+    sharePoint.getContext 'testing101', (err, context)->
+      console.log err || context
+
+      req =
+        context: context
+        title  : 'text'
+        type   : 3
+        guid   : '47c61990-d8ae-4f73-bae7-8fdaeecb4e98'
+
+      sharePoint.createColumnForListByGUID req, (err, data)->
+        console.log err || data
+
+The data returned looks something like this.  Id will be used when calling list related fns that require GUID.
+The "..." indicates a continuation:
+```javascript
+{
+  Title: text',
+  Created: '2013-06-18T13:51:35Z',
+  Id: '12345ba1-65cb-1234-1234642ds',
+  Description: '',
+  FieldTypeKind: 3,
+  ...,
+  __metadata: {
+     ...
+  }
+}
+```
+
+----
+
 ##### addListItemByTitle
 is a prototype function for adding an item to a custom list.  This fn takes a list title string, an item object
 (containing the list type in its __metadata), the app context, and a callback (err, newItem), where newItem is
