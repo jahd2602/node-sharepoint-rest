@@ -23,6 +23,59 @@ With it now installed in your project:
 ----
 
 #### GET API
+##### getPropertiesForAccountName
+is a prototype function of the UserProfile class inherited by the SharePoint class.
+It takes an account name string of "<domain>\\username" and a callback (err, data), where data is
+the RESTful results from SharePoint.
+
+    sharePoint.getContext '', (err, context)->
+      sharePoint.getPropertiesForAccountName "domain\\admin", (err, profile)->
+        util = require 'util'
+        console.log util.inspect(profile, {depth:4})
+
+
+The data returned looks something like this.  The "..." indicates a continuation:
+```javascript
+{
+  AccountName: 'domain\\admin',
+  DirectReports: { results: [] },
+  DisplayName: 'admin',
+  Email: 'admin@domain.net',
+  ExtendedManagers: { results: [] },
+  ExtendedReports: { results: [ 'domain\\admin' ] },
+  IsFollowed: true,
+  LatestPost: "Hello #sharepoint citizens!",
+  Peers: { results: [] },
+  PersonalUrl: 'https://domain.net/personal/admin/',
+  PictureUrl: 'https://my.domain.net/User%20Photos/Profile%20Pictures/admin_MThumb.jpg',
+  Title: "SharePoint Admin",
+  UserProfileProperties:
+  {
+    results: [
+      {
+         __metadata: { ... },
+         Key: 'UserProfile_GUID',
+         Value: '12341234-3934-2934-h38h-2398482348',
+         ValueType: 'Edm.String'
+      },
+      {
+         __metadata: { ... },
+          Key: 'SID',
+          Value: 's-1-5-20-23423423-123412342-12342341-1000',
+          ValueType: 'Edm.String'
+      },
+      ...
+    ]
+  }
+  ...,
+  __metadata: {
+     ...
+  }
+}
+```
+
+----
+
 ##### getLists
 is a prototype function of the SharePoint class that uses the require module and basic auth to
 communicate with On Premise SharePoint instances.  It takes a callback (err, data), where data is the RESTful

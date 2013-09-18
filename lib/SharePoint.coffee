@@ -1,5 +1,12 @@
-class SharePoint
+SuperClass   = require './SuperClass.coffee'
+UserProfiles = require './UserProfiles'
+
+class SharePoint extends SuperClass
+  @include UserProfiles
+
   constructor: (@settings)->
+    UserProfiles.call @
+
     if !@settings
       throw new Error("settings object is required for instance creation")
     else
