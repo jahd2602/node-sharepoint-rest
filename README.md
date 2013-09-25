@@ -55,10 +55,9 @@ is a prototype function of the UserProfile class inherited by the SharePoint cla
 It takes an account name string of "&lt;domain&gt;\\username" and a callback (err, data), where data is
 the RESTful results from SharePoint.
 
-    sharePoint.getContext '', (err, context)->
-      sharePoint.getPropertiesForAccountName "domain\\admin", (err, profile)->
-        util = require 'util'
-        console.log util.inspect(profile, {depth:4})
+    sharePoint.getPropertiesForAccountName "domain\\admin", (err, profile)->
+      util = require 'util'
+      console.log util.inspect(profile, {depth:4})
 
 
 The data returned looks something like this.  The "..." indicates a continuation:
