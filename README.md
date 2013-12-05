@@ -32,7 +32,7 @@ With it now installed in your project:
   - [createList(req, cb)](#createlist)
   - [createColumnForListByGUID(req, cb)](#createcolumnforlistbyguid)
   - [addListItemByTitle(listTitle, cb)](#addlistitembytitle)
-  - [addAttachment(req, cb)](#addattachment)
+  - [addAttachmentToListItem(req, cb)](#addattachment)
 
 ##### getContext
 is a prototype function of the SharePoint class for getting the context of a SharePoint app.  For example, you can use
@@ -307,7 +307,7 @@ The data returned looks something like this.  The "..." indicates a continuation
 ###### [Back to top](#node-sharepoint-rest)
 ----
 
-##### addAttachment
+##### addAttachmentToListItem
 is a prototype function for adding a binary attachment to a custom list item.  This fn takes a config object
 and a callback (err, data), where data is meta from the item.
 
@@ -331,7 +331,7 @@ and a callback (err, data), where data is meta from the item.
         data    : data
         binary  : binary
 
-      sharePoint.addAttachment req, (err, newItem)->
+      sharePoint.addAttachmentToListItem req, (err, newItem)->
         if err
           console.log err
         else
