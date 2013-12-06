@@ -227,12 +227,44 @@ The "..." indicates a continuation:
 ###### [Back to top](#node-sharepoint-rest)
 ----
 
+##### deleteListByGUID
+is a prototype function for deleting a custom list.  The deleteListByGUID fn takes a req object which must contain a
+list GUID, the app context, and a callback (err, meta), where meta is the response for the operation.
+
+    # get our context from the site url (leave app parameter as empty string)
+    sharePoint.getContext 'app', (err, context)->
+      console.log err || context
+
+      req =
+        context: context
+        guid: '47c61990-d8ae-4f73-bae7-8fdaeecb4e98'
+
+      sharePoint.deleteListByGUID req, (err, meta)->
+        console.log err || meta
+
+The data returned looks something like this.
+The "..." indicates a continuation:
+```javascript
+{
+  Title: testing101',
+  Created: '2013-06-18T13:51:35Z',
+  Id: '12345ba1-65cb-1234-1234642ds',
+
+  ...,
+  __metadata: {
+     ...
+  }
+}
+```
+###### [Back to top](#node-sharepoint-rest)
+----
+
 ##### createColumnForListByGUID
 is a prototype function for creating a custom list column.  You must have a recent context token from your list app
-first.  The example shows a callback pattern starting with the getContext fn.  The createList fn takes a req object
-which must contain a column title string, the app context,
+first.  The example shows a callback pattern starting with the getContext fn.  The
+fn takes a req object which must contain a column title string, the app context,
 the column type (see: http://msdn.microsoft.com/en-us/library/microsoft.sharepoint.client.fieldtype.aspx),
-and a callback (err, data), where data is the new column data from SharePoint.
+the list GUID, and a callback (err, data), where data is the new column meta-data from SharePoint.
 
     sharePoint.getContext 'testing101', (err, context)->
       console.log err || context

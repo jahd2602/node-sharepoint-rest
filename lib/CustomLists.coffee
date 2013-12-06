@@ -164,6 +164,38 @@ class CustomLists
 
     return @
 
+  deleteListByGUID: (req, cb)->
+    if !req.context
+      cb({err: "please provide a context"})
+      return
+
+    if !req.guid
+      cb({err: "please provide a guid"})
+      return
+
+    if !cb
+      cb({err: "please provide a callback"})
+      return
+
+    context = req.context
+    guid    = req.guid
+
+    processRequest = (err, res, body)->
+      cb(err)
+
+    config =
+      headers:
+        "Accept": "application/json;odata=verbose"
+        "X-RequestDigest": context
+        "IF-MATCH": "*"
+        "X-HTTP-Method": "DELETE"
+      url: "#{@url}/_api/web/lists(guid'#{guid}')"
+      strictSSL: @settings.strictSSL
+
+    @request.post(config, processRequest).auth(@user, @pass, true)
+
+    return @
+
   createColumnForListByGUID: (req, cb)->
     if !req.context
       cb({err: "please provide a context"})
@@ -202,6 +234,10 @@ class CustomLists
       Required: 'false'
       EnforceUniqueValues: 'false'
       StaticName: title
+
+    if type is 3
+      body.__metadata.RichText = "TRUE"
+      body.__metadata.RichTextMode = "FullHtml"
 
     config =
       headers :
