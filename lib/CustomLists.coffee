@@ -113,6 +113,44 @@ class CustomLists
 
     return @
 
+  editListItemByTitle: (title, item, context, cb)->
+    processRequest = (err, res, body)->
+      try
+        jsonBody = JSON.parse(body)
+      catch e
+        cb()
+        return
+
+      if jsonBody.error && jsonBody.error.code.indexOf("Microsoft.SharePoint.Client.InvalidClientQueryException") >= 0
+        cb("Microsoft.SharePoint.Client.InvalidClientQueryException", null)
+
+      else if jsonBody.error && jsonBody.error.code
+        cb(JSON.parse(body).error, null)
+
+      else
+        cb(err, JSON.parse(body).d)
+
+    itemPayload =
+      '__metadata':
+        'type': @getItemTypeForListName(title)
+
+    itemPayload = @merge(itemPayload,item)
+
+    config =
+      headers :
+        "Accept": "application/json;odata=verbose"
+        "X-RequestDigest": context
+        "content-type": "application/json;odata=verbose"
+        "X-HTTP-Method": "MERGE"
+        "If-Match": "*"
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{item.ID})"
+      strictSSL: @settings.strictSSL
+      body: JSON.stringify(itemPayload)
+
+    @request.post(config, processRequest).auth(@user, @pass, true)
+
+    return @
+
   createList: (req, cb)->
     if !req.context
       cb({err: "please provide a context"})
@@ -251,5 +289,14 @@ class CustomLists
     @request.post(config, processRequest).auth(@user, @pass, true)
 
     return @
+
+  getItemTypeForListName :(name) ->
+    "SP.Data." + name.charAt(0).toUpperCase() + name.slice(1) + "ListItem"
+
+  merge: (xs...) ->
+    if xs?.length > 0
+      @tap {}, (m)->m[k] = v for k,v of x for x in xs
+
+  tap: (o, fn)-> fn(o); o
 
 module.exports = CustomLists
