@@ -121,12 +121,9 @@ class CustomLists
         cb()
         return
 
-      if jsonBody.error && jsonBody.error.code.indexOf("Microsoft.SharePoint.Client.InvalidClientQueryException") >= 0
-        cb("Microsoft.SharePoint.Client.InvalidClientQueryException", null)
-
-      else if jsonBody.error && jsonBody.error.code
-        cb(JSON.parse(body).error, null)
-
+      if jsonBody.error
+        console.log jsonBody
+        cb(jsonBody, null)
       else
         cb(err, JSON.parse(body).d)
 
