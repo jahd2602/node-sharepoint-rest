@@ -113,7 +113,7 @@ class CustomLists
 
     return @
 
-  editListItemByTitle: (title, item, context, cb)->
+  editListItemByTitle: (title, id, item, context, cb)->
     processRequest = (err, res, body)->
       try
         jsonBody = JSON.parse(body)
@@ -143,7 +143,7 @@ class CustomLists
         "content-type": "application/json;odata=verbose"
         "X-HTTP-Method": "MERGE"
         "If-Match": "*"
-      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{item.ID})"
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{id})"
       strictSSL: @settings.strictSSL
       body: JSON.stringify(itemPayload)
 
