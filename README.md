@@ -297,8 +297,7 @@ The "..." indicates a continuation:
 ----
 
 ##### addListItemByTitle
-is a prototype function for adding an item to a custom list.  This fn takes a list title string, an item object
-(containing the list type in its __metadata), the app context, and a callback (err, newItem), where newItem is
+is a prototype function for adding an item to a custom list.  This fn takes a list title string, an item object, the app context, and a callback (err, newItem), where newItem is
 the new item from SharePoint.
 
     list = 'customList'
@@ -329,6 +328,29 @@ The data returned looks something like this.  The "..." indicates a continuation
   }
 }
 ```
+###### [Back to top](#node-sharepoint-rest)
+----
+
+
+##### editListItemByTitle
+is a prototype function for editing an item to a custom list.  This fn takes a list title string, an item id, an item object, the app context, and a callback (err, editedItem), where editedItem is
+the new item from SharePoint. Sharepoint will merge the object you send with the one stored, ignoring any property not present in the item you send.
+
+    list = 'customList'
+    sharePoint.getContext list, (err, context)->
+      if err
+        console.log err
+        return
+
+      item =
+        Title: "My Edited Item " + Math.random()
+
+      sharePoint.editListItemByTitle list, id, item, context, (err, newItem)->
+        if err
+          console.log err
+        else
+          console.log newItem
+
 ###### [Back to top](#node-sharepoint-rest)
 ----
 
