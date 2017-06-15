@@ -302,26 +302,19 @@ is a prototype function for adding an item to a custom list.  This fn takes a li
 the new item from SharePoint.
 
     list = 'customList'
-    sharePoint.getListTypeByTitle list, (err, type)->
+    sharePoint.getContext list, (err, context)->
       if err
         console.log err
         return
 
-      sharePoint.getContext list, (err, context)->
+      item =
+        Title: "My New Item " + Math.random()
+
+      sharePoint.addListItemByTitle list, item, context, (err, newItem)->
         if err
           console.log err
-          return
-
-        item =
-          __metadata:
-            type: type
-          Title: "My New Item " + Math.random()
-
-        sharePoint.addListItemByTitle list, item, context, (err, newItem)->
-          if err
-            console.log err
-          else
-            console.log newItem
+        else
+          console.log newItem
 
 The data returned looks something like this.  The "..." indicates a continuation:
 ```javascript

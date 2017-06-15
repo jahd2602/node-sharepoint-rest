@@ -100,6 +100,12 @@ class CustomLists
       else
         cb(err, JSON.parse(body).d)
 
+    itemPayload =
+      '__metadata':
+        'type': @getItemTypeForListName(title)
+
+    itemPayload = @merge(itemPayload,item)
+
     config =
       headers :
         "Accept": "application/json;odata=verbose"
@@ -107,7 +113,7 @@ class CustomLists
         "content-type": "application/json;odata=verbose"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
       strictSSL: @settings.strictSSL
-      body: JSON.stringify(item)
+      body: JSON.stringify(itemPayload)
 
     @request.post(config, processRequest).auth(@user, @pass, true)
 
