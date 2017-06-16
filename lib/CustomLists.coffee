@@ -154,6 +154,34 @@ class CustomLists
 
     return @
 
+  deleteListItemByTitle: (title, id, context, cb)->
+    processRequest = (err, res, body)->
+      try
+        jsonBody = JSON.parse(body)
+      catch e
+        cb()
+        return
+
+      if jsonBody.error
+        console.log jsonBody
+        cb(jsonBody, null)
+      else
+        cb(err, JSON.parse(body))
+
+    config =
+      headers :
+        "Accept": "application/json;odata=verbose"
+        "X-RequestDigest": context
+        "content-type": "application/json;odata=verbose"
+        "X-HTTP-Method": "DELETE"
+        "If-Match": "*"
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{id})"
+      strictSSL: @settings.strictSSL
+
+    @request.post(config, processRequest).auth(@user, @pass, true)
+
+    return @
+
   createList: (req, cb)->
     if !req.context
       cb({err: "please provide a context"})

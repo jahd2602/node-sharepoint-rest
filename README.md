@@ -32,6 +32,8 @@ With it now installed in your project:
   - [createList(req, cb)](#createlist)
   - [createColumnForListByGUID(req, cb)](#createcolumnforlistbyguid)
   - [addListItemByTitle(listTitle, cb)](#addlistitembytitle)
+  - [editListItemByTitle(listTitle, cb)](#editlistitembytitle)
+  - [deleteListItemByTitle(listTitle, cb)](#deletelistitembytitle)
   - [addAttachmentToListItem(req, cb)](#addattachment)
 
 ##### getContext
@@ -331,7 +333,6 @@ The data returned looks something like this.  The "..." indicates a continuation
 ###### [Back to top](#node-sharepoint-rest)
 ----
 
-
 ##### editListItemByTitle
 is a prototype function for editing an item to a custom list.  This fn takes a list title string, an item id, an item object, the app context, and a callback (err, editedItem), where editedItem is
 the new item from SharePoint. Sharepoint will merge the object you send with the one stored, ignoring any property not present in the item you send.
@@ -350,6 +351,25 @@ the new item from SharePoint. Sharepoint will merge the object you send with the
           console.log err
         else
           console.log newItem
+
+###### [Back to top](#node-sharepoint-rest)
+----
+
+##### deleteListItemByTitle
+is a prototype function for deleting an item to a custom list.  This fn takes a list title string, an item id, the app context, and a callback (err, jsonResponse), where jsonResponse is
+the responsse in JSON from SharePoint.
+
+    list = 'customList'
+    sharePoint.getContext list, (err, context)->
+      if err
+        console.log err
+        return
+
+      sharePoint.deleteListItemByTitle list, id, context, (err, jsonResponse)->
+        if err
+          console.log err
+        else
+          console.log jsonResponse
 
 ###### [Back to top](#node-sharepoint-rest)
 ----
