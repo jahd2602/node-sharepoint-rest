@@ -19,9 +19,12 @@ class CustomLists
     return @
 
   getListItemsByTitle: (title, cb)->
+    return @getListItemsByTitleWithQuery(title,'',cb)
+
+  getListItemsByTitleWithQuery: (title, query, cb)->
     processRequest = (err, res, body)->
       if !body || !JSON.parse(body).d
-        cb("no list of title : #{title}")
+        cb(body)
       else
         cb(err, JSON.parse(body).d.results)
 
@@ -29,7 +32,7 @@ class CustomLists
       headers:
         Accept: "application/json;odata=verbose"
       strictSSL: @settings.strictSSL
-      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
+      url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items?#{query}"
 
     @request.get(config, processRequest).auth(@user, @pass, true)
 
