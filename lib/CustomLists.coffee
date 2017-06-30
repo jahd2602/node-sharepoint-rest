@@ -10,7 +10,7 @@ class CustomLists
 
     config =
       headers :
-        Accept: "application/json;odata=nometadata"
+        Accept: "application/json"
       strictSSL: @settings.strictSSL
       url     : "#{@url}/_api/lists"
 
@@ -30,7 +30,7 @@ class CustomLists
 
     config =
       headers:
-        Accept: "application/json;odata=nometadata"
+        Accept: "application/json"
       strictSSL: @settings.strictSSL
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items?#{query}"
 
@@ -48,7 +48,7 @@ class CustomLists
 
     config =
       headers :
-        Accept: "application/json;odata=nometadata"
+        Accept: "application/json"
       strictSSL: @settings.strictSSL
       url     : "#{@url}/_api/web/lists/getbytitle('#{title}')?"
 
@@ -77,9 +77,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": req.context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
       url     : "#{@url}/_api/web/lists/getbytitle('#{req.title}')/items(#{req.itemId})/AttachmentFiles/add(Filename='#{req.binary.fileName}')"
       strictSSL: @settings.strictSSL
       body: req.data
@@ -112,9 +112,9 @@ class CustomLists
         cb(err, null)
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": req.context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
         "X-HTTP-Method": "DELETE"
         "If-Match": "*"
       url: "#{@url}/_api/web/lists/getbytitle('#{req.title}')/getItemById(#{req.itemId})/AttachmentFiles/getbyFileName('#{req.binary.fileName}')"
@@ -147,9 +147,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
       strictSSL: @settings.strictSSL
       body: JSON.stringify(itemPayload)
@@ -180,9 +180,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
         "X-HTTP-Method": "MERGE"
         "If-Match": "*"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{id})"
@@ -209,9 +209,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
         "X-HTTP-Method": "DELETE"
         "If-Match": "*"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{id})"
@@ -261,9 +261,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
       url: "#{@url}/_api/web/lists"
       strictSSL: @settings.strictSSL
       body: JSON.stringify(body)
@@ -293,7 +293,7 @@ class CustomLists
 
     config =
       headers:
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
         "IF-MATCH": "*"
         "X-HTTP-Method": "DELETE"
@@ -349,9 +349,9 @@ class CustomLists
 
     config =
       headers :
-        "Accept": "application/json;odata=nometadata"
+        "Accept": "application/json"
         "X-RequestDigest": context
-        "content-type": "application/json;odata=nometadata"
+        "content-type": "application/json"
       url: "#{@url}/_api/web/lists(guid'#{guid}')/Fields"
       strictSSL: @settings.strictSSL
       body: JSON.stringify(body)
