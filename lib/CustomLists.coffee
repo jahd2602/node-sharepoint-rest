@@ -90,6 +90,42 @@ class CustomLists
 
     return @
 
+  deleteAttachmentToListItem: (req, cb)->
+    processRequest = (err, res, body)->
+      if err
+        @log err
+      if body
+        jsonBody = JSON.parse(body)
+
+        if jsonBody.error && jsonBody.error.code.indexOf("Microsoft.SharePoint.Client.InvalidClientQueryException") >= 0
+          cb("Microsoft.SharePoint.Client.InvalidClientQueryException", null)
+
+        if jsonBody.error && jsonBody.error.code.indexOf("Microsoft.SharePoint.SPException")
+          cb("Microsoft.SharePoint.SPException", null)
+
+        if jsonBody.error && jsonBody.error.code
+          cb(jsonBody.error, null)
+
+        else
+          cb(err, JSON.parse(body).d)
+      else
+        cb(err, null)
+    config =
+      headers :
+        "Accept": "application/json;odata=verbose"
+        "X-RequestDigest": req.context
+        "content-type": "application/json;odata=verbose"
+        "X-HTTP-Method": "DELETE"
+        "If-Match": "*"
+      url: "#{@url}/_api/web/lists/getbytitle('#{req.title}')/getItemById(#{req.itemId})/AttachmentFiles/getbyFileName('#{req.binary.fileName}')"
+      strictSSL: @settings.strictSSL
+      binaryStringRequestBody: true
+      state: "update"
+
+    @request.post(config, processRequest).auth(@user, @pass, true)
+
+    return @
+
   addListItemByTitle: (title, item, context, cb)->
     processRequest = (err, res, body)->
       jsonBody = JSON.parse(body)
