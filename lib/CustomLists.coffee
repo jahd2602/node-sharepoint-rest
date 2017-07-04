@@ -3,10 +3,10 @@ class CustomLists
 
   getLists: (cb)->
     processRequest = (err, res, body)->
-      if !body || !JSON.parse(body).d
+      if !body || !JSON.parse(body)
         cb({err:err})
       else
-        cb(err, JSON.parse(body).d.results)
+        cb(err, JSON.parse(body).value)
 
     config =
       headers :
@@ -23,10 +23,10 @@ class CustomLists
 
   getListItemsByTitleWithQuery: (title, query, cb)->
     processRequest = (err, res, body)->
-      if !body || !JSON.parse(body).d
+      if !body || !JSON.parse(body)
         cb(body)
       else
-        cb(err, JSON.parse(body).d.results)
+        cb(err, JSON.parse(body).value)
 
     config =
       headers:
@@ -40,11 +40,11 @@ class CustomLists
 
   getListTypeByTitle: (title, cb)->
     processRequest = (err, res, body)->
-      if !body || !JSON.parse(body).d
+      if !body || !JSON.parse(body)
         cb("no list of title : #{title}")
 
       else
-        cb(err, JSON.parse(body).d.ListItemEntityTypeFullName)
+        cb(err, JSON.parse(body).ListItemEntityTypeFullName)
 
     config =
       headers :
@@ -73,7 +73,7 @@ class CustomLists
         cb(jsonBody.error, null)
 
       else
-        cb(err, JSON.parse(body).d)
+        cb(err, JSON.parse(body))
 
     config =
       headers :
@@ -107,7 +107,7 @@ class CustomLists
           cb(jsonBody.error, null)
 
         else
-          cb(err, JSON.parse(body).d)
+          cb(err, JSON.parse(body))
       else
         cb(err, null)
     config =
@@ -137,7 +137,7 @@ class CustomLists
         cb(JSON.parse(body).error, null)
 
       else
-        cb(err, JSON.parse(body).d)
+        cb(err, JSON.parse(body))
 
     itemPayload =
       '__metadata':
@@ -170,7 +170,7 @@ class CustomLists
         console.log jsonBody
         cb(jsonBody, null)
       else
-        cb(err, JSON.parse(body).d)
+        cb(err, JSON.parse(body))
 
     itemPayload =
       '__metadata':
@@ -248,7 +248,7 @@ class CustomLists
         cb(JSON.parse(body).error, null)
 
       else
-        cb(err, JSON.parse(body).d)
+        cb(err, JSON.parse(body))
 
     body =
       __metadata:
@@ -332,7 +332,7 @@ class CustomLists
         cb(jsonBody.error, null)
 
       else
-        cb(err, JSON.parse(body).d)
+        cb(err, JSON.parse(body))
 
     body =
       __metadata:
