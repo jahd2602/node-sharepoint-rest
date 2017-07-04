@@ -139,12 +139,6 @@ class CustomLists
       else
         cb(err, JSON.parse(body))
 
-    itemPayload =
-      '__metadata':
-        'type': @getItemTypeForListName(title)
-
-    itemPayload = @merge(itemPayload,item)
-
     config =
       headers :
         "Accept": "application/json;odata=nometadata"
@@ -152,7 +146,7 @@ class CustomLists
         "content-type": "application/json;odata=nometadata"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items"
       strictSSL: @settings.strictSSL
-      body: JSON.stringify(itemPayload)
+      body: JSON.stringify(item)
 
     @request.post(config, processRequest).auth(@user, @pass, true)
 
@@ -245,8 +239,6 @@ class CustomLists
         cb(err, JSON.parse(body))
 
     body =
-      __metadata:
-        type: 'SP.List'
       AllowContentTypes: true
       BaseTemplate: 100
       ContentTypesEnabled: true
@@ -329,17 +321,15 @@ class CustomLists
         cb(err, JSON.parse(body))
 
     body =
-      __metadata:
-        type: 'SP.Field'
       Title: title
       FieldTypeKind: type
       Required: 'false'
       EnforceUniqueValues: 'false'
       StaticName: title
 
-    if type is 3
-      body.__metadata.RichText = "TRUE"
-      body.__metadata.RichTextMode = "FullHtml"
+#    if type is 3
+#      body.__metadata.RichText = "TRUE"
+#      body.__metadata.RichTextMode = "FullHtml"
 
     config =
       headers :
