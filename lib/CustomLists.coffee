@@ -172,12 +172,6 @@ class CustomLists
       else
         cb(err, JSON.parse(body))
 
-    itemPayload =
-      '__metadata':
-        'type': @getItemTypeForListName(title)
-
-    itemPayload = @merge(itemPayload,item)
-
     config =
       headers :
         "Accept": "application/json;odata=nometadata"
@@ -187,7 +181,7 @@ class CustomLists
         "If-Match": "*"
       url: "#{@url}/_api/web/lists/getbytitle('#{title}')/items(#{id})"
       strictSSL: @settings.strictSSL
-      body: JSON.stringify(itemPayload)
+      body: JSON.stringify(item)
 
     @request.post(config, processRequest).auth(@user, @pass, true)
 
